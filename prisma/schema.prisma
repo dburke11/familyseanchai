@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  name     String
+  userName String
+  email    String   @unique
+  Person   Person[] @relation("creating_user")
+  friend   User[]   @relation("UserToUser")
+  User     User?    @relation("UserToUser", fields: [userId], references: [id])
+  userId   Int?
+  password String
+}
+
+model Person {
+  id               Int       @id @default(autoincrement())
+  uuid             String    @default(uuid()) @db.Uuid
+  createdTimestamp DateTime  @default(now())
+  modifyTimestamp  DateTime  @updatedAt
+  creating_user_id Int?
+  creating_user    User?     @relation(name: "creating_user", fields: [creating_user_id], references: [id])
+  bio_mother_id    Int?
+  bio_mother       Person?   @relation(name: "mother", fields: [bio_mother_id], references: [id])
+  bio_father_id    Int?
+  bio_father       Person?   @relation(name: "father", fields: [bio_father_id], references: [id])
+  birthday         DateTime?
+  date_death       DateTime?
+  father           Person[]  @relation("father")
+  mother           Person[]  @relation("mother")
+  first_name       String?
+  middle_names     String[]
+  last_name        String?
+
+}

@@ -33,6 +33,9 @@
     "family-seanchai-e2e": {
       "tags": [],
       "implicitDependencies": ["family-seanchai"]
+    },
+    "fsb": {
+      "tags": []
     }
   }
 }

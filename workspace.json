@@ -104,6 +104,57 @@
           }
         }
       }
+    },
+    "fsb": {
+      "root": "apps/fsb",
+      "sourceRoot": "apps/fsb/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/fsb",
+            "main": "apps/fsb/src/main.ts",
+            "tsConfig": "apps/fsb/tsconfig.app.json",
+            "assets": ["apps/fsb/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/fsb/src/environments/environment.ts",
+                  "with": "apps/fsb/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "fsb:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/fsb/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/fsb"],
+          "options": {
+            "jestConfig": "apps/fsb/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
@@ -124,6 +175,5 @@
         "linter": "eslint"
       }
     }
-  },
-  "defaultProject": "family-seanchai"
+  }
 }
